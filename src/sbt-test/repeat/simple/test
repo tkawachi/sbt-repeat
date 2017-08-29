@@ -1,0 +1,3 @@
+> clean
+> repeat 10 write
+> check 10

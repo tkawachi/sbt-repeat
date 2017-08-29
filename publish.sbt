@@ -1,16 +1,8 @@
-import sbtrelease._
-import ReleaseStateTransformations._
+import sbtrelease.ReleaseStateTransformations._
 
-sonatypeSettings
+releaseCrossBuild := true
 
-releaseSettings
-
-ReleaseKeys.crossBuild := true
-
-def runTaskStep[A](task: TaskKey[A]) =
-  ReleaseStep(state => Project.extract(state).runTask(task, state)._1)
-
-ReleaseKeys.releaseProcess := Seq[ReleaseStep](
+releaseProcess := Seq[ReleaseStep](
   checkSnapshotDependencies,
   inquireVersions,
   runClean,
@@ -18,10 +10,10 @@ ReleaseKeys.releaseProcess := Seq[ReleaseStep](
   setReleaseVersion,
   commitReleaseVersion,
   tagRelease,
-  runTaskStep(PgpKeys.publishSigned),
+  releaseStepCommand("publishSigned"),
   setNextVersion,
   commitNextVersion,
-  runTaskStep(SonatypeKeys.sonatypeReleaseAll),
+  releaseStepCommand("sonatypeReleaseAll"),
   pushChanges
 )
 

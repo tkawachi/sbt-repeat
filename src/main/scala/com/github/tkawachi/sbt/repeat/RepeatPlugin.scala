@@ -5,9 +5,10 @@ import sbt.complete.DefaultParsers._
 import sbt.complete.Parser
 
 object RepeatPlugin extends sbt.Plugin {
-  val argParser: Parser[(Int, String)] = Space ~> NatBasic ~ (Space ~> any.+.string)
+  val argParser
+    : Parser[(Int, String)] = Space ~> NatBasic ~ (Space ~> any.+.string)
 
-  lazy val repeat = Command("repeat")(_ => argParser) {
+  lazy val repeat: Command = Command("repeat")(_ => argParser) {
     case (st, (n, rest)) =>
       st.log.info(s"Repeating `$rest` $n times")
       Seq.tabulate(n)(_ => rest) ::: st

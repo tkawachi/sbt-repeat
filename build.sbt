@@ -27,5 +27,6 @@ lazy val root = project
   .settings(commonSettings: _*)
   .settings(
     name := "sbt-repeat",
-    sbtPlugin := true
+    sbtPlugin := true,
+    crossSbtVersions := Vector("0.13.16", "1.0.1")
   )

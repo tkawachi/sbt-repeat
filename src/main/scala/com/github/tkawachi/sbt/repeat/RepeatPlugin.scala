@@ -14,7 +14,7 @@ object RepeatPlugin extends AutoPlugin {
   private lazy val repeat: Command = Command("repeat")(_ => argParser) {
     case (st, (n, rest)) =>
       st.log.info(s"Repeating `$rest` $n times")
-      Seq.tabulate(n)(_ => rest) ::: st
+      List.tabulate(n)(_ => rest) ::: st
   }
 
   override lazy val globalSettings = Seq(

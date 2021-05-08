@@ -8,8 +8,8 @@ object RepeatPlugin extends AutoPlugin {
 
   override val trigger: PluginTrigger = allRequirements
 
-  private val argParser
-    : Parser[(Int, String)] = Space ~> NatBasic ~ (Space ~> any.+.string)
+  private val argParser: Parser[(Int, String)] =
+    Space ~> NatBasic ~ (Space ~> any.+.string)
 
   private lazy val repeat: Command = Command("repeat")(_ => argParser) {
     case (st, (n, rest)) =>

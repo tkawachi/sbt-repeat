@@ -1,6 +1,6 @@
-scalafmtOnCompile in ThisBuild := true
+ThisBuild / scalafmtOnCompile := true
 
-scalafmtVersion in ThisBuild := "1.1.0"
+ThisBuild / versionScheme := Some("early-semver")
 
 val commonSettings = Seq(
   organization := "com.github.tkawachi",
@@ -9,8 +9,9 @@ val commonSettings = Seq(
     ScmInfo(
       url("https://github.com/tkawachi/sbt-repeat/"),
       "scm:git:github.com:tkawachi/sbt-repeat.git"
-    )),
-  scalaVersion := "2.10.4",
+    )
+  ),
+  scalaVersion := "2.12.13",
   scalacOptions ++= Seq(
     "-deprecation",
     "-encoding",
@@ -24,9 +25,17 @@ val commonSettings = Seq(
 
 lazy val root = project
   .in(file("."))
+  .enablePlugins(SbtPlugin)
   .settings(commonSettings: _*)
   .settings(
     name := "sbt-repeat",
-    sbtPlugin := true,
-    crossSbtVersions := Vector("0.13.16", "1.0.1")
+    scriptedLaunchOpts := {
+      scriptedLaunchOpts.value ++
+        Seq(
+          "-Xmx1024M",
+          "-XX:MaxPermSize=256M",
+          "-Dplugin.version=" + version.value
+        )
+    },
+    scriptedBufferLog := false
   )
